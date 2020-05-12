@@ -34,4 +34,21 @@ impl Cpu {
 
         hi << 8 | lo
     }
+
+    fn process_opcode(&mut self) {
+        let nnn = opcode & 0x0FFF;
+
+        // break up into nibbles
+        let op_1 = (current_opcode() & 0xF000) >> 12;
+        let op_2 = (current_opcode() & 0x0F00) >> 8;
+        let op_3 = (current_opcode() & 0x00F0) >> 4;
+        let op_4 = current_opcode() & 0x000F
+
+        self.pc += 2;
+
+        match (op_1, op_2, op_3, op_4) {
+            (0xA, _, _, _) => self.i = nnn,
+        }
+    }
+
 }
