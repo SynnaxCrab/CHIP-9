@@ -89,9 +89,54 @@ impl Cpu {
             (0x6, _, _, _) => self.v[x] = nn,
             // Adds NN to VX (Carry flag is not changed)
             (0x7, _, _, _) => self.v[x] += nn,
-            // Sets VX to the value of VY.
-            (0x8, _, _, 0x1) => self.v[x] = v[y],
+            // Sets VX to the value of VY
+            (0x8, _, _, 0x0) => self.v[x] = v[y],
+            // Sets VX to VX or VY (Bitwise OR operation)
+            (0x8, _, _, 0x1) => self.v[x] = self.v[x] | self.v[y],
+            // Sets VX to VX and VY (Bitwise AND operation)
+            (0x8, _, _, 0x2) => self.v[x] = self.v[x] & self.v[y],
+            // Sets VX to VX xor VY
+            (0x8, _, _, 0x3) => self.v[x] = self.v[x] ^ self.v[y],
+            // Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't
+            (0x8, _, _, 0x4) => self.v[x] = self.v[x] ^ self.v[y],
+            // Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't
+            (0x8, _, _, 0x4) => {
+                let (res, overflow) = self.v[x].overflowing_add(self.v[y]);
+                self.v[0xF] = if overflow { 1 } else { 0 };
+                self.v[x] = res;
+            },
+            // VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't
+            (0x8, _, _, 0x5) => {
+                let (res, overflow) = self.v[x].overflowing_sub(self.v[y]);
+                self.v[0xF] = if overflow { 0 } else { 1 };
+                self.v[x] = res;
+            },
+            // Stores the least significant bit of VX in VF and then shifts VX to the right by 1
+            (0x8, _, _, 0x6) => {
+                self.v[0xF] = self.v[x] & 0x1;
+                self.v[x] >>= 1;
+            },
+            // Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't
+            (0x8, _, _, 0x7) => {
+                let (res, overflow) = self.v[y].overflowing_sub(self.v[x]);
+                self.v[0xF] = if overflow { 0 } else { 1 };
+                self.v[x] = res;
+            },
+            // Stores the most significant bit of VX in VF and then shifts VX to the left by 1
+            (0x8, _, _, 0xE) => {
+                self.v[0xF] = self.v[x] & 0x80;
+                self.v[x] <<= 1;
+            },
+            // Skips the next instruction if VX doesn't equal VY
+            (0x9, _, _, _) => {
+                if vx != vy {
+                    self.pc += 2;
+                }
+            },
+            // Sets I to the address NNN
             (0xA, _, _, _) => self.i = nnn,
+            // Jumps to the address NNN plus V0
+            (0xB, _, _, _) => self.pc = nnn + self.v[0],
         }
     }
 
