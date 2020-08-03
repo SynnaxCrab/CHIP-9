@@ -226,4 +226,30 @@ mod tests {
         cpu.process_opcode();
         assert_eq!(cpu.pc, 4);
     }
+
+    #[test]
+    fn test_set_vx() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x60;
+        cpu.memory[1] = 0x56;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        assert_eq!(cpu.current_opcode(), 0x6056);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x56);
+    }
+
+    #[test]
+    fn test_add_to_vx() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x70;
+        cpu.memory[1] = 0x01;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        assert_eq!(cpu.current_opcode(), 0x7001);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x56);
+    }
 }
