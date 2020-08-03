@@ -161,6 +161,18 @@ mod tests {
     }
 
     #[test]
+    fn test_jump() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x16;
+        cpu.memory[1] = 0x55;
+        cpu.pc = 0;
+        assert_eq!(cpu.current_opcode(), 0x1655);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.pc, 0x655);
+    }
+
+    #[test]
     fn test_call() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0x26;
