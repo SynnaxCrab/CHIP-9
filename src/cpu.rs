@@ -146,7 +146,32 @@ mod tests {
     use super::Cpu;
 
     #[test]
-    fn exploration() {
-        assert_eq!(2 + 2, 4);
+    fn test_return() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0;
+        cpu.memory[1] = 0xEE;
+        cpu.pc = 0;
+        cpu.sp = 1;
+        cpu.stack[0] = 0x655;
+        assert_eq!(cpu.current_opcode(), 0x00EE);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.sp, 0);
+        assert_eq!(cpu.pc, 0x655);
+    }
+
+    #[test]
+    fn test_call() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x26;
+        cpu.memory[1] = 0x55;
+        cpu.pc = 0;
+        cpu.sp = 0;
+        assert_eq!(cpu.current_opcode(), 0x2655);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.sp, 1);
+        assert_eq!(cpu.stack[0], 2);
+        assert_eq!(cpu.pc, 0x655);
     }
 }
