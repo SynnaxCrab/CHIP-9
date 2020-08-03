@@ -186,4 +186,30 @@ mod tests {
         assert_eq!(cpu.stack[0], 2);
         assert_eq!(cpu.pc, 0x655);
     }
+
+    #[test]
+    fn test_vx_equal() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x30;
+        cpu.memory[1] = 0x55;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        assert_eq!(cpu.current_opcode(), 0x3055);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.pc, 4);
+    }
+
+    #[test]
+    fn test_vx_not_equal() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x40;
+        cpu.memory[1] = 0x56;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        assert_eq!(cpu.current_opcode(), 0x4056);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.pc, 4);
+    }
 }
