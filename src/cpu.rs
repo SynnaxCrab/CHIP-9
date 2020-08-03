@@ -212,4 +212,18 @@ mod tests {
         cpu.process_opcode();
         assert_eq!(cpu.pc, 4);
     }
+
+    #[test]
+    fn test_vx_equals_vy() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x50;
+        cpu.memory[1] = 0x10;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        cpu.v[1] = 0x55;
+        assert_eq!(cpu.current_opcode(), 0x5010);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.pc, 4);
+    }
 }
