@@ -252,4 +252,32 @@ mod tests {
         cpu.process_opcode();
         assert_eq!(cpu.v[0], 0x56);
     }
+
+    #[test]
+    fn test_assign() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x10;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        cpu.v[1] = 0x66;
+        assert_eq!(cpu.current_opcode(), 0x8010);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x66);
+    }
+
+    #[test]
+    fn test_bitwise_or() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x11;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        cpu.v[1] = 0x00;
+        assert_eq!(cpu.current_opcode(), 0x8011);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x55);
+    }
 }
