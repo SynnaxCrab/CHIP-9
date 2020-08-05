@@ -437,4 +437,27 @@ mod tests {
         cpu.process_opcode();
         assert_eq!(cpu.pc, 6);
     }
+
+    fn test_set_index_register() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0xA5;
+        cpu.memory[1] = 0x44;
+        cpu.pc = 0;
+        assert_eq!(cpu.current_opcode(), 0xA544);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.i, 0x544);
+    }
+
+    fn test_jump_plus_v0() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0xB5;
+        cpu.memory[1] = 0x44;
+        cpu.pc = 0;
+        cpu.v[0] = 0x1;
+        assert_eq!(cpu.current_opcode(), 0xB544);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.i, 0x545);
+    }
 }
