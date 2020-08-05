@@ -272,6 +272,8 @@ mod tests {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0x80;
         cpu.memory[1] = 0x11;
+        cpu.memory[2] = 0x80;
+        cpu.memory[3] = 0x11;
         cpu.pc = 0;
         cpu.v[0] = 0x55;
         cpu.v[1] = 0x00;
@@ -279,5 +281,147 @@ mod tests {
 
         cpu.process_opcode();
         assert_eq!(cpu.v[0], 0x55);
+
+        cpu.v[0] = 0x55;
+        cpu.v[1] = 0xFF;
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0xFF);
+    }
+
+    #[test]
+    fn test_bitwise_and() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x12;
+        cpu.memory[2] = 0x80;
+        cpu.memory[3] = 0x12;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        cpu.v[1] = 0x00;
+        assert_eq!(cpu.current_opcode(), 0x8012);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x00);
+
+        cpu.v[0] = 0x55;
+        cpu.v[1] = 0xFF;
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x55);
+    }
+
+    #[test]
+    fn test_bitwise_xor() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x13;
+        cpu.memory[2] = 0x80;
+        cpu.memory[3] = 0x13;
+        cpu.pc = 0;
+        cpu.v[0] = 0x00;
+        cpu.v[1] = 0x00;
+        assert_eq!(cpu.current_opcode(), 0x8013);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x00);
+
+        cpu.v[0] = 0x00;
+        cpu.v[1] = 0xFF;
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0xFF);
+    }
+
+    #[test]
+    fn test_add_vy_to_vx() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x14;
+        cpu.memory[2] = 0x80;
+        cpu.memory[3] = 0x14;
+        cpu.pc = 0;
+        cpu.v[0] = 0xFE;
+        cpu.v[1] = 0x01;
+        assert_eq!(cpu.current_opcode(), 0x8014);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0xFF);
+        assert_eq!(cpu.v[0xF], 0);
+
+        cpu.v[0] = 0xFF;
+        cpu.v[1] = 0x02;
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x01);
+        assert_eq!(cpu.v[0xF], 1);
+    }
+
+    #[test]
+    fn test_subtract_vy_from_vx() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x15;
+        cpu.memory[2] = 0x80;
+        cpu.memory[3] = 0x15;
+        cpu.pc = 0;
+        cpu.v[0] = 0x02;
+        cpu.v[1] = 0x01;
+        assert_eq!(cpu.current_opcode(), 0x8015);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x01);
+        assert_eq!(cpu.v[0xF], 1);
+
+        cpu.v[0] = 0x00;
+        cpu.v[1] = 0x01;
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0xFF);
+        assert_eq!(cpu.v[0xF], 0);
+    }
+
+    #[test]
+    fn test_shift_vx_right() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x16;
+        cpu.pc = 0;
+        cpu.v[0] = 0xFF;
+        assert_eq!(cpu.current_opcode(), 0x8016);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0x7F);
+        assert_eq!(cpu.v[0xF], 1);
+    }
+
+    fn test_set_vx_to_vy_minus_vx() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x17;
+        cpu.memory[2] = 0x80;
+        cpu.memory[3] = 0x17;
+        cpu.pc = 0;
+        cpu.v[0] = 0x01;
+        cpu.v[1] = 0xFF;
+        assert_eq!(cpu.current_opcode(), 0x8017);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0xFE);
+        assert_eq!(cpu.v[0xF], 0);
+
+        cpu.v[0] = 0x01;
+        cpu.v[1] = 0x00;
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0xFF);
+        assert_eq!(cpu.v[0xF], 1);
+    }
+
+    fn test_shift_vx_left() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x80;
+        cpu.memory[1] = 0x1E;
+        cpu.pc = 0;
+        cpu.v[0] = 0xFF;
+        assert_eq!(cpu.current_opcode(), 0x801E);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], 0xFE);
+        assert_eq!(cpu.v[0xF], 1);
     }
 }
