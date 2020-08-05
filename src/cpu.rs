@@ -424,4 +424,17 @@ mod tests {
         assert_eq!(cpu.v[0], 0xFE);
         assert_eq!(cpu.v[0xF], 1);
     }
+
+    fn test_vx_not_equal_xy() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0x90;
+        cpu.memory[1] = 0x10;
+        cpu.pc = 0;
+        cpu.v[0] = 0x55;
+        cpu.v[0] = 0x54;
+        assert_eq!(cpu.current_opcode(), 0x9010);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.pc, 6);
+    }
 }
