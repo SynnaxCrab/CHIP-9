@@ -142,6 +142,12 @@ impl Cpu {
             (0xA, _, _, _) => self.i = nnn,
             // Jumps to the address NNN plus V0
             (0xB, _, _, _) => self.pc = nnn + self.v[0] as u16,
+            // Vx = rand() & NN
+            (0xC, _, _, _) => {
+                let interval = Range::new(0, 255);
+                let number = interval.ind_sample(&mut self.rng);
+                self.v[x] = number & nn;
+            }
             (_, _, _, _) => (),
         }
     }
