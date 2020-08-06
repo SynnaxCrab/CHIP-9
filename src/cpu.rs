@@ -148,6 +148,14 @@ impl Cpu {
                 let number = interval.ind_sample(&mut self.rng);
                 self.v[x] = number & nn;
             }
+            // not implemented yet
+            (0xD, _, _, _) => (),
+            // not implemented yet
+            (0xE, _, 0x9, 0xE) => (),
+            // not implemented yet
+            (0xE, _, 0xA, 0x1) => (),
+            //Sets VX to the value of the delay timer.
+            (0xF, _, 0x0, 0x7) => self.v[x] = self.dt,
             (_, _, _, _) => (),
         }
     }
@@ -471,5 +479,17 @@ mod tests {
 
         cpu.process_opcode();
         assert_eq!(cpu.i, 0x545);
+    }
+
+    fn test_set_vx_to_dt() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0xF0;
+        cpu.memory[1] = 0x07;
+        cpu.pc = 0;
+        cpu.dt = 1;
+        assert_eq!(cpu.current_opcode(), 0xF007);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], cpu.dt);
     }
 }
