@@ -156,6 +156,10 @@ impl Cpu {
             (0xE, _, 0xA, 0x1) => (),
             //Sets VX to the value of the delay timer.
             (0xF, _, 0x0, 0x7) => self.v[x] = self.dt,
+            // not implemented yet
+            (0xF, _, 0x0, 0xA) => (),
+            // Sets the delay timer to VX.
+            (0xF, _, 0x1, 0x5) => self.dt = self.v[x],
             (_, _, _, _) => (),
         }
     }
@@ -491,5 +495,17 @@ mod tests {
 
         cpu.process_opcode();
         assert_eq!(cpu.v[0], cpu.dt);
+    }
+
+    fn test_set_dt_to_vx() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0xF0;
+        cpu.memory[1] = 0x15;
+        cpu.pc = 0;
+        cpu.v[0] = 1;
+        assert_eq!(cpu.current_opcode(), 0xF015);
+
+        cpu.process_opcode();
+        assert_eq!(cpu.dt, cpu.v[0]);
     }
 }
