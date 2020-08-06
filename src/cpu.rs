@@ -1,3 +1,6 @@
+use rand;
+use rand::distributions::{IndependentSample, Range};
+
 struct Cpu {
     // index register
     i: u16,
@@ -13,6 +16,8 @@ struct Cpu {
     sp: u8,
     // delayed timer
     dt: u8,
+
+    rng: rand::ThreadRng,
 }
 
 impl Cpu {
@@ -25,6 +30,7 @@ impl Cpu {
             stack: [0; 16],
             sp: 0,
             dt: 0,
+            rng: rand::thread_rng(),
         }
     }
 
