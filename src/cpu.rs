@@ -432,13 +432,13 @@ mod tests {
 
         cpu.process_opcode();
         assert_eq!(cpu.v[0], 0xFE);
-        assert_eq!(cpu.v[0xF], 0);
+        assert_eq!(cpu.v[0xF], 1);
 
         cpu.v[0] = 0x01;
         cpu.v[1] = 0x00;
         cpu.process_opcode();
         assert_eq!(cpu.v[0], 0xFF);
-        assert_eq!(cpu.v[0xF], 1);
+        assert_eq!(cpu.v[0xF], 0);
     }
 
     #[test]
