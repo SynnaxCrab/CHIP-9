@@ -418,6 +418,7 @@ mod tests {
         assert_eq!(cpu.v[0xF], 1);
     }
 
+    #[test]
     fn test_set_vx_to_vy_minus_vx() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0x80;
@@ -440,6 +441,7 @@ mod tests {
         assert_eq!(cpu.v[0xF], 1);
     }
 
+    #[test]
     fn test_shift_vx_left() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0x80;
@@ -453,6 +455,7 @@ mod tests {
         assert_eq!(cpu.v[0xF], 1);
     }
 
+    #[test]
     fn test_vx_not_equal_xy() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0x90;
@@ -466,6 +469,7 @@ mod tests {
         assert_eq!(cpu.pc, 6);
     }
 
+    #[test]
     fn test_set_index_register() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0xA5;
@@ -477,6 +481,7 @@ mod tests {
         assert_eq!(cpu.i, 0x544);
     }
 
+    #[test]
     fn test_jump_plus_v0() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0xB5;
@@ -489,6 +494,7 @@ mod tests {
         assert_eq!(cpu.i, 0x545);
     }
 
+    #[test]
     fn test_set_vx_to_dt() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0xF0;
@@ -501,6 +507,7 @@ mod tests {
         assert_eq!(cpu.v[0], cpu.dt);
     }
 
+    #[test]
     fn test_set_dt_to_vx() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0xF0;
@@ -513,6 +520,7 @@ mod tests {
         assert_eq!(cpu.dt, cpu.v[0]);
     }
 
+    #[test]
     fn test_add_vx_to_i() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0xF0;
