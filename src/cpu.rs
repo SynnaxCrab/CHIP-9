@@ -491,7 +491,7 @@ mod tests {
         assert_eq!(cpu.current_opcode(), 0xB544);
 
         cpu.process_opcode();
-        assert_eq!(cpu.i, 0x545);
+        assert_eq!(cpu.pc, 0x545);
     }
 
     #[test]
