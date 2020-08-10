@@ -456,7 +456,7 @@ mod tests {
     }
 
     #[test]
-    fn test_vx_not_equal_xy() {
+    fn test_vx_not_equal_vy() {
         let mut cpu = Cpu::new();
         cpu.memory[0] = 0x90;
         cpu.memory[1] = 0x10;
