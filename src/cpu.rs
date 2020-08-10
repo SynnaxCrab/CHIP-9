@@ -129,7 +129,7 @@ impl Cpu {
             }
             // Stores the most significant bit of VX in VF and then shifts VX to the left by 1
             (0x8, _, _, 0xE) => {
-                self.v[0xF] = self.v[x] & 0x80;
+                self.v[0xF] = (self.v[x] & 0x80) >> 7;
                 self.v[x] <<= 1;
             }
             // Skips the next instruction if VX doesn't equal VY
