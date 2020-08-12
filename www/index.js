@@ -1,3 +1,3 @@
 import * as wasm from "chip-9";
 
-wasm.greet();
+wasm.greet("CHIP-9!");
