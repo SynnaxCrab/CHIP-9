@@ -1,7 +1,7 @@
 use rand;
 use rand::distributions::{IndependentSample, Range};
 
-struct Cpu {
+pub struct Cpu {
     // index register
     i: u16,
     // program counter
@@ -21,7 +21,7 @@ struct Cpu {
 }
 
 impl Cpu {
-    fn new() -> Cpu {
+    pub fn new() -> Cpu {
         Cpu {
             i: 0,
             pc: 0,
@@ -34,7 +34,7 @@ impl Cpu {
         }
     }
 
-    fn current_opcode(&mut self) -> u16 {
+    pub fn current_opcode(&self) -> u16 {
         let hi = self.memory[self.pc as usize] as u16;
         let lo = self.memory[(self.pc + 1) as usize] as u16;
 

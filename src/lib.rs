@@ -1,6 +1,7 @@
 mod cpu;
 mod utils;
 
+use cpu::Cpu;
 use wasm_bindgen::prelude::*;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -18,4 +19,14 @@ extern "C" {
 pub fn greet(name: &str) {
     let msg = format!("Hello, {}", name);
     alert(&msg);
+}
+
+#[wasm_bindgen]
+pub fn cpu() {
+    let cpu = Cpu::new();
+    let msg = format!("Hello, {}", "BBBBB");
+    alert(&msg);
+    //let opcode = format!("Current OP code: {}", cpu.current_opcode());
+    //let opcode = format!("Current OP code: {}", "abcd");
+    //alert(&opcode);
 }
