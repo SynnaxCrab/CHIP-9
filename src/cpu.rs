@@ -1,6 +1,9 @@
-use rand;
-use rand::distributions::{IndependentSample, Range};
+// use crate::utils;
 
+use rand::prelude::*;
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
 pub struct Cpu {
     // index register
     i: u16,
@@ -17,11 +20,13 @@ pub struct Cpu {
     // delayed timer
     dt: u8,
 
-    rng: rand::ThreadRng,
+    rng: ThreadRng,
 }
 
+#[wasm_bindgen]
 impl Cpu {
     pub fn new() -> Cpu {
+        // utils::set_panic_hook();
         Cpu {
             i: 0,
             pc: 0,
@@ -144,8 +149,7 @@ impl Cpu {
             (0xB, _, _, _) => self.pc = nnn + self.v[0] as u16,
             // Vx = rand() & NN
             (0xC, _, _, _) => {
-                let interval = Range::new(0, 255);
-                let number = interval.ind_sample(&mut self.rng);
+                let number = self.rng.gen_range(0, 255);
                 self.v[x] = number & nn;
             }
             // not implemented yet
