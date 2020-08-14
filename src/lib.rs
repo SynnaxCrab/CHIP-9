@@ -24,9 +24,6 @@ pub fn greet(name: &str) {
 #[wasm_bindgen]
 pub fn cpu() {
     let cpu = Cpu::new();
-    let msg = format!("Hello, {}", "BBBBB");
-    alert(&msg);
-    //let opcode = format!("Current OP code: {}", cpu.current_opcode());
-    //let opcode = format!("Current OP code: {}", "abcd");
-    //alert(&opcode);
+    let opcode = format!("Current OP code: {}", cpu.current_opcode());
+    alert(&opcode);
 }
