@@ -16,12 +16,6 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn greet(name: &str) {
-    let msg = format!("Hello, {}", name);
-    alert(&msg);
-}
-
-#[wasm_bindgen]
 pub fn cpu() {
     let cpu = Cpu::new();
     let opcode = format!("Current OP code: {}", cpu.current_opcode());
