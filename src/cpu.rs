@@ -51,7 +51,7 @@ impl Cpu {
         self.stack = [0; 16];
         self.sp = 0;
         self.dt = 0;
-        self.rng: rand::thread_rng(),
+        self.rng = rand::thread_rng();
         self.display.cls();
         for i in 0..80 {
             self.memory[i] = FONT_SET[i];
