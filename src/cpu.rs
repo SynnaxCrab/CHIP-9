@@ -1,5 +1,6 @@
 // use crate::utils;
 
+use crate::display::Display;
 use rand::prelude::*;
 use wasm_bindgen::prelude::*;
 
@@ -19,8 +20,10 @@ pub struct Cpu {
     sp: u8,
     // delayed timer
     dt: u8,
-
+    // random number generator
     rng: ThreadRng,
+    // display
+    display: Display,
 }
 
 #[wasm_bindgen]
@@ -36,6 +39,7 @@ impl Cpu {
             sp: 0,
             dt: 0,
             rng: rand::thread_rng(),
+            display: Display::new(),
         }
     }
 
