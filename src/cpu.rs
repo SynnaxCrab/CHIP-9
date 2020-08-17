@@ -69,7 +69,7 @@ impl Cpu {
 
         match (op_1, op_2, op_3, op_4) {
             // clears the display
-            // (0, 0, 0xE, 0) => self.display.cls(),
+            (0, 0, 0xE, 0) => self.display.cls(),
             // returns from a subroutine
             (0, 0, 0xE, 0xE) => {
                 self.sp = self.sp - 1;
