@@ -1,6 +1,6 @@
 // use crate::utils;
 
-use crate::display::Display;
+use crate::display::{Display, FONT_SET};
 use rand::prelude::*;
 use wasm_bindgen::prelude::*;
 
@@ -40,6 +40,21 @@ impl Cpu {
             dt: 0,
             rng: rand::thread_rng(),
             display: Display::new(),
+        }
+    }
+
+    fn reset(&mut self) {
+        self.i = 0;
+        self.pc = 0x200;
+        self.memory = [0; 4096];
+        self.v = [0; 16];
+        self.stack = [0; 16];
+        self.sp = 0;
+        self.dt = 0;
+        self.rng: rand::thread_rng(),
+        self.display.cls();
+        for i in 0..80 {
+            self.memory[i] = FONT_SET[i];
         }
     }
 
