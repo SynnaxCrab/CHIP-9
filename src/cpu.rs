@@ -58,6 +58,7 @@ impl Cpu {
         let vy = self.v[y];
         let nnn = opcode & 0x0FFF;
         let nn = (opcode & 0x00FF) as u8;
+        let n = (opcode & 0x000F) as u8;
 
         // break up into nibbles
         let op_1 = (opcode & 0xF000) >> 12;
@@ -156,8 +157,16 @@ impl Cpu {
                 let number = self.rng.gen_range(0, 255);
                 self.v[x] = number & nn;
             }
-            // not implemented yet
-            (0xD, _, _, _) => (),
+            // Draw the sprite
+            (0xD, _, _, _) => {
+                let height = n;
+                let collision = self.display.draw(
+                    vx as usize,
+                    vy as usize,
+                    &self.memory[self.i as usize..(self.i + height as u16) as usize],
+                );
+                self.v[0xF] = if collision { 1 } else { 0 };
+            }
             // not implemented yet
             (0xE, _, 0x9, 0xE) => (),
             // not implemented yet
