@@ -17,8 +17,7 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn cpu() {
+pub fn opcode() -> String {
     let cpu = Cpu::new();
-    let opcode = format!("Current OP code: {}", cpu.current_opcode());
-    alert(&opcode);
+    format!("Current OP code: {}", cpu.current_opcode())
 }

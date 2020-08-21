@@ -10,5 +10,6 @@ const run = async () => {
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
 };
 
-wasm.cpu();
+console.log(wasm.opcode());
+alert(wasm.opcode());
 run();
