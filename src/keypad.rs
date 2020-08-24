@@ -8,4 +8,8 @@ impl Keypad {
             keys: [false; 16]
         }
     }
+
+    fn key_down(&mut self, index: u8) {
+        self.keys[index as usize] = true;
+    }
 }
