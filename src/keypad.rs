@@ -12,4 +12,8 @@ impl Keypad {
     fn key_down(&mut self, index: u8) {
         self.keys[index as usize] = true;
     }
+
+    pub fn key_up(&mut self, index: u8) {
+        self.keys[index as usize] = false;
+    }
 }
