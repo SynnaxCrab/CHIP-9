@@ -1,12 +1,10 @@
 struct Keypad {
-    keys: [bool; 16];
+    keys: [bool; 16],
 }
 
 impl Keypad {
     fn new() -> Keypad {
-        Keypad {
-            keys: [false; 16]
-        }
+        Keypad { keys: [false; 16] }
     }
 
     fn key_down(&mut self, index: u8) {
