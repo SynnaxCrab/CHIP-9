@@ -17,7 +17,7 @@ impl Keypad {
         self.keys[index as usize] = false;
     }
 
-    pub fn is_key_down(&self, index: u8) -> bool {
+    fn is_key_down(&self, index: u8) -> bool {
         self.keys[index as usize]
     }
 }
