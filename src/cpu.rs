@@ -1,5 +1,3 @@
-// use crate::utils;
-
 use crate::display::{Display, FONT_SET};
 use rand::prelude::*;
 use wasm_bindgen::prelude::*;
@@ -29,7 +27,6 @@ pub struct Cpu {
 #[wasm_bindgen]
 impl Cpu {
     pub fn new() -> Cpu {
-        // utils::set_panic_hook();
         Cpu {
             i: 0,
             pc: 0,
