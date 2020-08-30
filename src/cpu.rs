@@ -1,4 +1,5 @@
 use crate::display::{Display, FONT_SET};
+use crate::keypad::Keypad;
 use rand::prelude::*;
 use wasm_bindgen::prelude::*;
 
@@ -22,6 +23,8 @@ pub struct Cpu {
     rng: ThreadRng,
     // display
     display: Display,
+    // keypad
+    keypad: Keypad,
 }
 
 #[wasm_bindgen]
@@ -37,6 +40,7 @@ impl Cpu {
             dt: 0,
             rng: rand::thread_rng(),
             display: Display::new(),
+            keypad: Keypad::new(),
         }
     }
 
