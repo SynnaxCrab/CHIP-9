@@ -186,8 +186,9 @@ impl Cpu {
             // Skips the next instruction if the key stored in VX is pressed.
             // (Usually the next instruction is a jump to skip a code block)
             (0xE, _, 0x9, 0xE) => self.pc += if self.keypad.is_key_down(vx) { 2 } else { 0 },
-            // not implemented yet
-            (0xE, _, 0xA, 0x1) => (),
+            // SKips the next instruction if the key stored in VX isn't pressed.
+            // (Usually the next instruction is a jump to skip a code block)
+            (0xE, _, 0xA, 0x1) => self.pc += if self.keypad.is_key_down(vx) { 0 } else { 2 },
             //Sets VX to the value of the delay timer.
             (0xF, _, 0x0, 0x7) => self.v[x] = self.dt,
             // not implemented yet
