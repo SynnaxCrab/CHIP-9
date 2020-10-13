@@ -1,8 +1,8 @@
 [package]
-name = "chip-9"
-version = "0.1.0"
 authors = ["Jeff Lai <winfield301@gmail.com>"]
 edition = "2018"
+name = "chip-9"
+version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -11,10 +11,10 @@ crate-type = ["cdylib", "rlib"]
 default = ["console_error_panic_hook"]
 
 [dependencies]
-rand = { version = "0.7.3", features = ["wasm-bindgen"] }
-wasm-bindgen = "0.2.63"
-console_error_panic_hook = { version = "0.1.6", optional = true }
-wee_alloc = { version = "0.4.5", optional = true }
+console_error_panic_hook = {version = "0.1.6", optional = true}
+rand = {version = "0.7.3", features = ["wasm-bindgen"]}
+wasm-bindgen = "0.2.68"
+wee_alloc = {version = "0.4.5", optional = true}
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"
