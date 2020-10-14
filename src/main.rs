@@ -24,4 +24,6 @@ fn main() {
     let mut rng = rand::thread_rng();
     let number = rng.gen_range(1, 7);
     println!("{}", number);
+
+    println!("{}", false as u8);
 }
