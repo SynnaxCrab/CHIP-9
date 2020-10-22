@@ -7,11 +7,11 @@ impl Keypad {
         Keypad { keys: [false; 16] }
     }
 
-    fn key_down(&mut self, index: u8) {
+    pub fn key_down(&mut self, index: u8) {
         self.keys[index as usize] = true;
     }
 
-    fn key_up(&mut self, index: u8) {
+    pub fn key_up(&mut self, index: u8) {
         self.keys[index as usize] = false;
     }
 
