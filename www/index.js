@@ -8,6 +8,9 @@ const run = async () => {
 
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  const imageData = ctx.createImageData(WIDTH, HEIGHT);
+  ctx.putImageData(imageData, 0, 0);
 };
 
 console.log(wasm.opcode());
