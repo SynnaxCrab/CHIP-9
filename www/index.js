@@ -1,4 +1,5 @@
 import * as wasm from "chip-9";
+import { memory } from "chip-9/chip_9_bg";
 
 const run = async () => {
   const WIDTH = 64;
@@ -14,5 +15,6 @@ const run = async () => {
 };
 
 console.log(wasm.opcode());
+console.log(memory.buffer);
 alert(wasm.opcode());
 run();
