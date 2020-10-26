@@ -15,6 +15,5 @@ const run = async () => {
 };
 
 console.log(wasm.opcode());
-console.log(memory.buffer);
 alert(wasm.opcode());
 run();
