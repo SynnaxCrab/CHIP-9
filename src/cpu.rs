@@ -59,6 +59,10 @@ impl Cpu {
         }
     }
 
+    pub fn memory(&self) -> *const u8 {
+        self.memory.as_ptr()
+    }
+
     pub fn current_opcode(&self) -> u16 {
         let hi = self.memory[self.pc as usize] as u16;
         let lo = self.memory[(self.pc + 1) as usize] as u16;
