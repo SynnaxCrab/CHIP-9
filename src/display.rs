@@ -2,7 +2,7 @@ const WIDTH: usize = 64;
 const HEIGHT: usize = 32;
 
 pub struct Display {
-    screen: [u8; WIDTH * HEIGHT],
+    pub screen: [u8; WIDTH * HEIGHT],
 }
 
 impl Display {
@@ -12,7 +12,7 @@ impl Display {
         }
     }
 
-    fn set_pixel(&mut self, x: usize, y: usize, on: bool) {
+    pub fn set_pixel(&mut self, x: usize, y: usize, on: bool) {
         self.screen[x + y * WIDTH] = on as u8;
     }
 

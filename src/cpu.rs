@@ -44,6 +44,10 @@ impl Cpu {
         }
     }
 
+    pub fn set_pixel(&mut self) {
+        self.display.set_pixel(20, 20, true);
+    }
+
     fn reset(&mut self) {
         self.i = 0;
         self.pc = 0x200;
@@ -59,8 +63,12 @@ impl Cpu {
         }
     }
 
-    pub fn memory(&self) -> *const u8 {
+    pub fn memory_ptr(&self) -> *const u8 {
         self.memory.as_ptr()
+    }
+
+    pub fn display_ptr(&self) -> *const u8 {
+        self.display.screen.as_ptr()
     }
 
     pub fn current_opcode(&self) -> u16 {
