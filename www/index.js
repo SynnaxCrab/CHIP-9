@@ -11,10 +11,24 @@ const run = async () => {
   const canvas = document.getElementById("chip-8");
   const ctx = canvas.getContext("2d");
 
+  const programMemory = new Uint8Array(memory.buffer, cpu.memory_ptr(), 4096);
   const displayMemory = new Uint8Array(memory.buffer, cpu.display_ptr(), 4096);
 
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  const loadRom = (rom) =>
+    fetch(`roms/${rom}`)
+      .then((r) => r.arrayBuffer())
+      .then((buffer) => {
+        cpu.reset();
+        const rom = new DataView(buffer, 0, buffer.byteLength);
+        for (let i = 0; i < rom.byteLength; i++) {
+          programMemory[0x200 + i] = rom.getUint8(i);
+        }
+
+        updateDisplay();
+      });
 
   const updateDisplay = () => {
     const imageData = ctx.createImageData(WIDTH, HEIGHT);
@@ -27,7 +41,17 @@ const run = async () => {
     ctx.putImageData(imageData, 0, 0);
   };
 
-  updateDisplay();
+  const runloop = () => {
+    console.log("looping");
+    for (let i = 0; i < 10; i++) {
+      cpu.process_opcode();
+    }
+    updateDisplay();
+    window.requestAnimationFrame(runloop);
+  };
+
+  loadRom("BLITZ");
+  window.requestAnimationFrame(runloop);
 };
 
 //console.log(wasm.opcode());

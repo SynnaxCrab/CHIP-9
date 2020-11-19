@@ -45,10 +45,10 @@ impl Cpu {
     }
 
     pub fn set_pixel(&mut self) {
-        self.display.set_pixel(20, 20, true);
+        self.display.set_pixel(0, 0, true);
     }
 
-    fn reset(&mut self) {
+    pub fn reset(&mut self) {
         self.i = 0;
         self.pc = 0x200;
         self.memory = [0; 4096];
@@ -78,7 +78,7 @@ impl Cpu {
         hi << 8 | lo
     }
 
-    fn process_opcode(&mut self) {
+    pub fn process_opcode(&mut self) {
         let opcode = self.current_opcode();
         let x = ((opcode & 0x0F00) >> 8) as usize;
         let y = ((opcode & 0x00F0) >> 4) as usize;
