@@ -3,7 +3,6 @@ import { Cpu } from "chip-9";
 import { memory } from "chip-9/chip_9_bg";
 
 const cpu = Cpu.new();
-cpu.set_pixel();
 
 const run = async () => {
   const WIDTH = 64;
@@ -46,6 +45,7 @@ const run = async () => {
     for (let i = 0; i < 10; i++) {
       cpu.process_opcode();
     }
+    cpu.decrement_timers();
     updateDisplay();
     window.requestAnimationFrame(runloop);
   };

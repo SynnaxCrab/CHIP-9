@@ -71,6 +71,12 @@ impl Cpu {
         self.display.screen.as_ptr()
     }
 
+    pub fn decrement_timers(&mut self) {
+        if self.dt > 0 {
+            self.dt -= 1;
+        }
+    }
+
     pub fn current_opcode(&self) -> u16 {
         let hi = self.memory[self.pc as usize] as u16;
         let lo = self.memory[(self.pc + 1) as usize] as u16;
