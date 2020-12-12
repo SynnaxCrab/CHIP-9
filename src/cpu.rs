@@ -210,7 +210,9 @@ impl Cpu {
             //Sets VX to the value of the delay timer.
             (0xF, _, 0x0, 0x7) => self.v[x] = self.dt,
             // not implemented yet
-            (0xF, _, 0x0, 0xA) => (),
+            (0xF, _, 0x0, 0xA) => {
+               self.pc -= 2;
+            },
             // Sets the delay timer to VX.
             (0xF, _, 0x1, 0x5) => self.dt = self.v[x],
             // not implemented yet
