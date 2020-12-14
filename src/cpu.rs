@@ -209,9 +209,15 @@ impl Cpu {
             (0xE, _, 0xA, 0x1) => self.pc += if self.keypad.is_key_down(vx) { 0 } else { 2 },
             //Sets VX to the value of the delay timer.
             (0xF, _, 0x0, 0x7) => self.v[x] = self.dt,
-            // not implemented yet
+            // A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted until next key event)
             (0xF, _, 0x0, 0xA) => {
                self.pc -= 2;
+               for (i, key) in self.keypad.keys.iter().enumerate() {
+                   if *key == true {
+                       self.v[x] = i as u8;
+                       self.pc += 2;
+                   }
+               }
             },
             // Sets the delay timer to VX.
             (0xF, _, 0x1, 0x5) => self.dt = self.v[x],
