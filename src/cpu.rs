@@ -48,6 +48,14 @@ impl Cpu {
         self.display.set_pixel(0, 0, true);
     }
 
+    pub fn key_down(&mut self, index: u8) {
+        self.keypad.key_down(index);
+    }
+
+    pub fn key_up(&mut self, index: u8) {
+        self.keypad.key_up(index);
+    }
+
     pub fn reset(&mut self) {
         self.i = 0;
         self.pc = 0x200;
