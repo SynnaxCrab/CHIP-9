@@ -232,8 +232,11 @@ impl Cpu {
 
 #[cfg(test)]
 mod tests {
+    use rand::Rng;
+
     use super::Cpu;
 
+    // opcode: 0x00EE
     #[test]
     fn test_return() {
         let mut cpu = Cpu::new();
@@ -249,6 +252,7 @@ mod tests {
         assert_eq!(cpu.pc, 0x655);
     }
 
+    // opcode: 0x1NNN
     #[test]
     fn test_jump() {
         let mut cpu = Cpu::new();
@@ -261,6 +265,7 @@ mod tests {
         assert_eq!(cpu.pc, 0x655);
     }
 
+    // opcode: 0x2NNN
     #[test]
     fn test_call() {
         let mut cpu = Cpu::new();
@@ -276,6 +281,7 @@ mod tests {
         assert_eq!(cpu.pc, 0x655);
     }
 
+    // opcode: 0x3XNN
     #[test]
     fn test_vx_equal() {
         let mut cpu = Cpu::new();
@@ -289,6 +295,7 @@ mod tests {
         assert_eq!(cpu.pc, 4);
     }
 
+    // opcode: 0x4XNN
     #[test]
     fn test_vx_not_equal() {
         let mut cpu = Cpu::new();
@@ -302,6 +309,7 @@ mod tests {
         assert_eq!(cpu.pc, 4);
     }
 
+    // opcode: 0x5XY0
     #[test]
     fn test_vx_equals_vy() {
         let mut cpu = Cpu::new();
@@ -316,6 +324,7 @@ mod tests {
         assert_eq!(cpu.pc, 4);
     }
 
+    // opcode: 0x6XNN
     #[test]
     fn test_set_vx() {
         let mut cpu = Cpu::new();
@@ -329,6 +338,7 @@ mod tests {
         assert_eq!(cpu.v[0], 0x56);
     }
 
+    // opcode: 0x7XNN
     #[test]
     fn test_add_to_vx() {
         let mut cpu = Cpu::new();
@@ -342,6 +352,7 @@ mod tests {
         assert_eq!(cpu.v[0], 0x56);
     }
 
+    // opcode: 0x8XY0
     #[test]
     fn test_assign() {
         let mut cpu = Cpu::new();
@@ -356,6 +367,7 @@ mod tests {
         assert_eq!(cpu.v[0], 0x66);
     }
 
+    // opcode: 0x8XY1
     #[test]
     fn test_bitwise_or() {
         let mut cpu = Cpu::new();
@@ -377,6 +389,7 @@ mod tests {
         assert_eq!(cpu.v[0], 0xFF);
     }
 
+    // opcode: 0x8XY2
     #[test]
     fn test_bitwise_and() {
         let mut cpu = Cpu::new();
@@ -398,6 +411,7 @@ mod tests {
         assert_eq!(cpu.v[0], 0x55);
     }
 
+    // opcode: 0x8XY3
     #[test]
     fn test_bitwise_xor() {
         let mut cpu = Cpu::new();
@@ -419,6 +433,7 @@ mod tests {
         assert_eq!(cpu.v[0], 0xFF);
     }
 
+    // opcode: 0x8XY4
     #[test]
     fn test_add_vy_to_vx() {
         let mut cpu = Cpu::new();
@@ -442,6 +457,7 @@ mod tests {
         assert_eq!(cpu.v[0xF], 1);
     }
 
+    // opcode: 0x8XY5
     #[test]
     fn test_subtract_vy_from_vx() {
         let mut cpu = Cpu::new();
@@ -465,6 +481,7 @@ mod tests {
         assert_eq!(cpu.v[0xF], 0);
     }
 
+    // opcode: 0x8XY6
     #[test]
     fn test_shift_vx_right() {
         let mut cpu = Cpu::new();
@@ -479,6 +496,7 @@ mod tests {
         assert_eq!(cpu.v[0xF], 1);
     }
 
+    // opcode: 0x8XY7
     #[test]
     fn test_set_vx_to_vy_minus_vx() {
         let mut cpu = Cpu::new();
@@ -502,6 +520,7 @@ mod tests {
         assert_eq!(cpu.v[0xF], 0);
     }
 
+    // opcode: 0x8XYE
     #[test]
     fn test_shift_vx_left() {
         let mut cpu = Cpu::new();
@@ -516,6 +535,7 @@ mod tests {
         assert_eq!(cpu.v[0xF], 1);
     }
 
+    // opcode: 0x9XY0
     #[test]
     fn test_vx_not_equal_vy() {
         let mut cpu = Cpu::new();
@@ -530,6 +550,7 @@ mod tests {
         assert_eq!(cpu.pc, 4);
     }
 
+    // opcode: 0xANNN
     #[test]
     fn test_set_index_register() {
         let mut cpu = Cpu::new();
@@ -542,6 +563,7 @@ mod tests {
         assert_eq!(cpu.i, 0x544);
     }
 
+    // opcode: 0xBNNN
     #[test]
     fn test_jump_plus_v0() {
         let mut cpu = Cpu::new();
@@ -555,6 +577,26 @@ mod tests {
         assert_eq!(cpu.pc, 0x545);
     }
 
+    // opcode: 0xCXNN
+    #[test]
+    fn test_set_vx_to_bitwise_of_random_and_nn() {
+        let mut cpu = Cpu::new();
+        cpu.memory[0] = 0xC0;
+        cpu.memory[1] = 0x00;
+        cpu.pc = 0;
+        let result= cpu.rng.gen_range(0, 255) & 0x00;
+
+        cpu.process_opcode();
+        assert_eq!(cpu.v[0], result);
+    }
+
+    // opcode: 0xDXYN
+
+    // opcode: 0xEX9E
+
+    // opcode: 0xEXA1
+
+    // opcode: 0xFX07
     #[test]
     fn test_set_vx_to_dt() {
         let mut cpu = Cpu::new();
@@ -568,6 +610,9 @@ mod tests {
         assert_eq!(cpu.v[0], cpu.dt);
     }
 
+    // opcode: 0xFX0A
+
+    // opcode: 0xFX15
     #[test]
     fn test_set_dt_to_vx() {
         let mut cpu = Cpu::new();
@@ -581,6 +626,9 @@ mod tests {
         assert_eq!(cpu.dt, cpu.v[0]);
     }
 
+    // opcode: 0xFX18
+
+    // opcode: 0xFX1E
     #[test]
     fn test_add_vx_to_i() {
         let mut cpu = Cpu::new();
